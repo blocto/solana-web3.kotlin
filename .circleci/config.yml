@@ -1,0 +1,46 @@
+version: 2
+jobs:
+  build:
+    parallelism: 2
+    environment:
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    docker:
+      - image: cimg/openjdk:17.0.1
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "web3/build.gradle" }}
+      - run:
+          name: Run tests
+          command: |
+            ./gradlew web3:test
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "web3/build.gradle" }}
+      - store_test_results:
+          path: web3/build/test-results/test
+      - store_artifacts:
+          path: web3/build/test-results/test
+      - run:
+          name: Assemble JAR
+          command: |
+            # Skip this for other nodes
+            if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
+              ./gradlew web3:assemble
+            fi
+      - store_artifacts:
+          path: web3/build/libs
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build

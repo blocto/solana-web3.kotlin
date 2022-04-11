@@ -1,0 +1,24 @@
+apply plugin: "com.vanniktech.maven.publish"
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group = "com.portto.solana"
+version = "0.1.1"
+//version project.property('version')
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+signing {
+//    sign configurations.archives
+}
+
+mavenPublish {
+    releaseSigningEnabled = true
+//    androidVariantToPublish = "debug"  // or use project.property('PUBLISH_VARIANT'), etc.
+}
