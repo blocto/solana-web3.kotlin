@@ -3,7 +3,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 group = "com.portto.solana"
-version = "0.1.1"
+version = "0.1.2"
 //version project.property('version')
 
 task sourcesJar(type: Jar) {

@@ -10,7 +10,6 @@ import com.portto.solana.web3.util.Shortvec
 import com.portto.solana.web3.util.TweetNaclFast
 import org.bitcoinj.core.Base58
 import java.nio.ByteBuffer
-import java.text.Collator
 
 /**
  * Transaction signature as base-58 encoded string
@@ -45,7 +44,11 @@ class AccountMeta(
     var isSigner: Boolean,
     /** True if the `pubkey` can be loaded as a read-write account. */
     var isWritable: Boolean
-)
+) {
+    override fun toString(): String {
+        return "pubkey:${publicKey.toBase58()}, signer:$isSigner, writable:$isWritable"
+    }
+}
 
 /**
  * Configuration object for Transaction.serialize()
@@ -338,15 +341,14 @@ class Transaction {
         }
 
         // Sort. Prioritizing first by signer, then by writable
-        accountMetas.sortWith { x, y ->
-            val pubkeySorting =
-                Collator.getInstance().compare(x.publicKey.toBase58(), y.publicKey.toBase58())
-            val checkSigner =
-                if (x.isSigner == y.isSigner) 0 else if (x.isSigner) -1 else 1
-            val checkWritable =
-                if (x.isWritable == y.isWritable) pubkeySorting else if (x.isWritable) -1 else 1
-            checkSigner or checkWritable
-        }
+        accountMetas.sortWith(
+            compareBy(
+                { !it.isWritable and !it.isSigner },
+                { !it.isSigner },
+                { !it.isWritable },
+                { it.publicKey.toBase58() },
+            )
+        )
 
         // Cull duplicate account metas
         val uniqueMetas = mutableListOf<AccountMeta>()
