@@ -1,20 +1,24 @@
 # SolanaWeb3
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.portto/solana.web3.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.portto%22%20AND%20a:%22solana.web3%22)
-[![CircleCI](https://circleci.com/gh/portto/solana-web3.kotlin/tree/master.svg?style=svg)](https://circleci.com/gh/portto/solana-web3.kotlin/tree/master)
+[![CircleCI](https://img.shields.io/circleci/build/github/portto/solana-web3.kotlin/master)](https://circleci.com/gh/portto/solana-web3.kotlin/tree/master)
 ![GitHub](https://img.shields.io/github/license/portto/solana-web3.kotlin)
 
 This is a open source library on kotlin for Solana protocol.
 
+**SolanaWeb3 that is currently under development, alpha builds are available in the [Sonatype staging repository](https://s01.oss.sonatype.org/content/repositories/staging/com/portto/solana/web3/).**
 
 ## How to
 ```gradle
 repositories {
     mavenCentral()
+    
+    // If you need to get SolanaWeb3 versions that are not uploaded to Maven Central.
+    maven { url "https://s01.oss.sonatype.org/content/repositories/staging/" }
 }
 
 dependencies {
-    implementation 'com.portto.solana:web3:0.1.1 
+    implementation 'com.portto.solana:web3:0.1.2'
 }
 ```
 
