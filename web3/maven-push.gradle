@@ -3,8 +3,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 group = "com.portto.solana"
-version = "0.1.2"
+version = "0.1.3"
 //version project.property('version')
+
+jar {
+    from configurations.includeInJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource

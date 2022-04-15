@@ -67,6 +67,21 @@ class MainActivity : ComponentActivity() {
                 lifecycleScope.launch {
                     withContext(Dispatchers.Default) {
                         println(
+                            api.getAccountInfo(
+                                "58ewYwS4XiZo5VuspKDdYkgi82n9carELJ63oGb7AZUq"
+                            )
+                        )
+                    }
+                }
+            }
+        ) {
+            Text(text = "getAccountInfo")
+        }
+        Button(
+            onClick = {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.Default) {
+                        println(
                             api.getTransaction(
                                 signature = "3hemaWyvFYhtu36sqvQgRJPsbJQmq9pcR37SV6eKnZGS94ASLdz1u2SLkUtaHt768DZ9W3hXoWGLZ16n9sXd9FZH",
                                 config = TransactionRpcConfig()
@@ -108,6 +123,17 @@ class MainActivity : ComponentActivity() {
         }
         Button(
             onClick = {
+                api.onAccountChange(
+                    PublicKey("58ewYwS4XiZo5VuspKDdYkgi82n9carELJ63oGb7AZUq"),
+                    { accountInfo, context ->
+                        println(
+                            "lamports:${
+                                accountInfo.lamports.toBigDecimal().scaleByPowerOfTen(-9).toPlainString()
+                            }"
+                        )
+                        println(context.slot)
+                    }
+                )
                 val account = KeyPair.fromSecretKey(walletPrivateKey.decodeBase58())
                 val instructions =
                     ValueProgram.createSetValueInstruction(UInt.MAX_VALUE, account.publicKey)

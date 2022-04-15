@@ -1,6 +1,6 @@
 # SolanaWeb3
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.portto/solana.web3.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.portto%22%20AND%20a:%22solana.web3%22)
+[![Maven Central](https://img.shields.io/maven-central/v/com.portto.solana/web3.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.portto.solana%22%20AND%20a:%22web3%22)
 [![CircleCI](https://img.shields.io/circleci/build/github/portto/solana-web3.kotlin/master)](https://circleci.com/gh/portto/solana-web3.kotlin/tree/master)
 ![GitHub](https://img.shields.io/github/license/portto/solana-web3.kotlin)
 
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.portto.solana:web3:0.1.2'
+    implementation 'com.portto.solana:web3:0.1.3'
 }
 ```
 

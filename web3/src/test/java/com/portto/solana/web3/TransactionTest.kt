@@ -22,6 +22,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import org.tinylog.kotlin.Logger
 import java.util.*
 
 class TransactionTest {
@@ -32,7 +33,7 @@ class TransactionTest {
     @JvmField
     var watcher: TestRule = object : TestWatcher() {
         override fun starting(description: Description) {
-            println("Starting test: " + description.methodName)
+            Logger.info("Starting test: " + description.methodName)
         }
     }
 
@@ -40,27 +41,6 @@ class TransactionTest {
     fun setUp() {
         Dispatchers.setMain(mainThreadSurrogate)
     }
-
-/*
-    @Before
-    fun `Bypass android_util_Base64 to java_util_Base64`() {
-        mockkStatic(android.util.Base64::class)
-        val arraySlot = slot<ByteArray>()
-
-        every {
-            android.util.Base64.encodeToString(capture(arraySlot), android.util.Base64.NO_WRAP)
-        } answers {
-            Base64.getEncoder().encodeToString(arraySlot.captured)
-        }
-
-        val stringSlot = slot<String>()
-        every {
-            android.util.Base64.decode(capture(stringSlot), android.util.Base64.NO_WRAP)
-        } answers {
-            Base64.getDecoder().decode(stringSlot.captured)
-        }
-    }
-*/
 
     @After
     fun tearDown() {

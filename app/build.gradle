@@ -46,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
@@ -59,8 +58,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
-//    implementation project(path: ':web3')
-    implementation 'com.portto.solana:web3:0.1.1'
-//    implementation files('/Users/kihon/..AndroidProject/SolanaWeb3/web3/build/libs/web3-0.1.1.jar')
+    implementation project(path: ':web3')
+//    implementation 'com.portto.solana:web3:0.1.2'
     implementation("com.github.komputing:KBase58:0.4")
 }

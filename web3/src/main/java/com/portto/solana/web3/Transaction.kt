@@ -9,6 +9,7 @@ package com.portto.solana.web3
 import com.portto.solana.web3.util.Shortvec
 import com.portto.solana.web3.util.TweetNaclFast
 import org.bitcoinj.core.Base58
+import org.tinylog.kotlin.Logger
 import java.nio.ByteBuffer
 
 /**
@@ -98,6 +99,20 @@ class NonceInformation(
     /** AdvanceNonceAccount Instruction */
     val nonceInstruction: TransactionInstruction
 )
+
+/*
+object TransactionSerializer :
+    JsonContentPolymorphicSerializer<Transaction>(
+        Transaction::class) {
+    override fun selectDeserializer(element: JsonElement) = when {
+        "message" in element.jsonObject -> Message.serializer()
+
+        element.jsonObject["err"] is JsonNull -> SignatureStatusResult.serializer()
+        else -> SignatureReceivedResult.serializer()
+    }
+}
+*/
+
 
 /**
  * Transaction class
@@ -277,7 +292,7 @@ class Transaction {
         return true
     }
 
-    private fun compile(): Message {
+    internal fun compile(): Message {
         val message = compileMessage()
         val signedKeys = message.accountKeys.slice(
             0 until message.header.numRequiredSignatures
@@ -314,7 +329,7 @@ class Transaction {
         require(recentBlockhash.isNotEmpty()) { "Transaction recentBlockhash required" }
 
         if (instructions.count() < 1) {
-            println("No instructions provided")
+            Logger.warn("No instructions provided")
         }
 
         val feePayer = feePayer ?: signatures.firstOrNull()?.publicKey
@@ -387,7 +402,7 @@ class Transaction {
             if (uniqueIndex > -1) {
                 if (!uniqueMetas[uniqueIndex].isSigner) {
                     uniqueMetas[uniqueIndex].isSigner = true
-                    println(
+                    Logger.info(
                         "Transaction references a signature that is unnecessary, " +
                                 "only the fee payer and instruction signer accounts should sign a transaction. " +
                                 "This behavior is deprecated and will throw an error in the next major version release"
@@ -478,10 +493,7 @@ class Transaction {
         return this.serialize(signData)
     }
 
-    /**
-     * @internal
-     */
-    private fun serialize(signData: ByteArray): ByteArray {
+    internal fun serialize(signData: ByteArray): ByteArray {
         val signatureCount = Shortvec.encodeLength(signatures.count())
         val transactionLength = signatureCount.count() + signatures.count() * 64 + signData.count()
         val wireTransaction = ByteBuffer.allocate(transactionLength)

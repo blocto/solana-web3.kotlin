@@ -38,6 +38,9 @@ jobs:
             fi
       - store_artifacts:
           path: web3/build/libs
+#      - run:
+#          name: deploy
+#          command: ./gradlew publish --no-daemon --no-parallel
 
 workflows:
   version: 2

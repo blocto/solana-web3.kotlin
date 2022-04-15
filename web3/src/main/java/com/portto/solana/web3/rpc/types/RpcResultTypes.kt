@@ -11,4 +11,7 @@ class RpcResultTypes {
     @Serializable
     class ValueLong(val value: Long = 0) : RpcResultObject()
 
+    @Serializable
+    class ValueBoolean(val value: Boolean) : RpcResultObject()
+
 }

@@ -11,11 +11,11 @@ class TransactionRpcResult(val value: TransactionResponse? = null) : RpcResultOb
     @Serializable
     data class TransactionResponse(
         @SerialName("blockTime")
-        val blockTime: Int,
+        val blockTime: Long,
         @SerialName("meta")
         val meta: ConfirmedTransactionMeta,
         @SerialName("slot")
-        val slot: Int,
+        val slot: Long,
         @SerialName("transaction")
         val transaction: ConfirmedTransaction
     ) {
@@ -38,16 +38,8 @@ class TransactionRpcResult(val value: TransactionResponse? = null) : RpcResultOb
             @SerialName("preTokenBalances")
             val preTokenBalances: List<String>,
             @SerialName("rewards")
-            val rewards: List<String>,
-            @SerialName("status")
-            val status: Status
-        ) {
-            @Serializable
-            data class Status(
-                @SerialName("Ok")
-                @Contextual val ok: Any
-            )
-        }
+            val rewards: List<String>
+        )
 
         @Serializable
         data class ConfirmedTransaction(

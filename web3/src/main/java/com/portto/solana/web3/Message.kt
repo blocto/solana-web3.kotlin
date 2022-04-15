@@ -7,13 +7,19 @@
 package com.portto.solana.web3
 
 import com.portto.solana.web3.util.Shortvec
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.bitcoinj.core.Base58
 import org.near.borshj.BorshBuffer
 import java.nio.ByteBuffer
 
+@Serializable
 class MessageHeader {
+    @SerialName("numRequiredSignatures")
     var numRequiredSignatures: Byte = 0
+    @SerialName("numReadonlySignedAccounts")
     var numReadonlySignedAccounts: Byte = 0
+    @SerialName("numReadonlyUnsignedAccounts")
     var numReadonlyUnsignedAccounts: Byte = 0
     fun toByteArray(): ByteArray {
         return byteArrayOf(
@@ -35,6 +41,7 @@ class MessageHeader {
  * @property {number[]} accounts
  * @property {string} data
  */
+@Serializable
 data class CompiledInstruction(
     /** Index into the transaction keys array indicating the program account that executes this instruction */
     val programIdIndex: Int,
@@ -149,7 +156,7 @@ class Message(
         }
         return buffer.toByteArray()
             /*.also {
-                println(
+                Logger.debug(
                     it.asUByteArray().joinToString("") { it.toString(radix = 16).padStart(2, '0') })
             }*/
     }
