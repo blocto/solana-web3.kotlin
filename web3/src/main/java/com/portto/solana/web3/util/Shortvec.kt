@@ -11,7 +11,7 @@ object Shortvec {
         var size = 0
         while (true) {
             val elem = newBytes.first().toInt().also { newBytes = newBytes.drop(1).toByteArray() }
-            len = len or (elem and 0x7f) shl (size * 7)
+            len = len or ((elem and 0x7f) shl (size * 7))
             size += 1
             if ((elem and 0x80) == 0) {
                 break
